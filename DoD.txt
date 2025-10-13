@@ -1,0 +1,9 @@
+kullanıcı giriş ekranı kullanıcı adı / şifre ile.
+sistemde sabir 1 adet admin / 123456 kullanıcı olsun ve yeni kullanıcı ekleyebilsin
+müşteri kaydı
+müşteri - bisiklet kaydı (bir müşterinin birden çok bilgisayarı olabilir.)
+bisiklet servis hizmeti (Servis kayıtları (tarih, yapılan işlemler, ücret))
+	bisiklet için hizmet ve parça ekle
+	bisiklet kaydını güncelle
+	bisiklet kaydını kapat
+yedek parça kayıt ekranı

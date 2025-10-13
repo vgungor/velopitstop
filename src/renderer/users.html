@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kullanıcı Yönetimi</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      button {
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      input[type="text"],
+      input[type="password"] {
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Kullanıcı Yönetimi</h2>
+    <button id="back">← Geri Dön</button>
+
+    <h3>Yeni Kullanıcı Ekle</h3>
+    <form id="addUserForm">
+      <input
+        type="text"
+        id="newUsername"
+        placeholder="Kullanıcı Adı"
+        required
+      />
+      <input type="password" id="newPassword" placeholder="Şifre" required />
+      <label><input type="checkbox" id="isAdmin" /> Admin</label>
+      <button type="submit">Ekle</button>
+    </form>
+
+    <h3>Mevcut Kullanıcılar</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Kullanıcı Adı</th>
+          <th>Admin</th>
+          <th>Askıya Alındı</th>
+          <th>Son Giriş</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+
+    <script>
+      const session = JSON.parse(localStorage.getItem("session"));
+
+      // Eğer giriş yapılmamışsa veya admin değilse erişimi engelle
+      if (!session || !session.is_admin) {
+        window.location = "dashboard.html";
+      }
+
+      const tbody = document.getElementById("userTableBody");
+
+      async function loadUsers() {
+        const users = await window.api.getUsers();
+        tbody.innerHTML = "";
+        users.forEach((u) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+        <td>${u.id}</td>
+        <td>${u.username}</td>
+        <td>${u.is_admin ? "✅" : "❌"}</td>
+        <td>${u.is_suspended ? "🟥" : "🟩"}</td>
+        <td>${u.last_login || "-"}</td>
+        <td>
+          <button onclick="toggleSuspend(${u.id}, ${u.is_suspended ? 0 : 1})">
+            ${u.is_suspended ? "Aktif Et" : "Askıya Al"}
+          </button>
+        </td>
+      `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function toggleSuspend(id, suspend) {
+        await window.api.toggleUserSuspension(id, suspend);
+        loadUsers();
+      }
+
+      document
+        .getElementById("addUserForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const username = document.getElementById("newUsername").value;
+          const password = document.getElementById("newPassword").value;
+          const isAdmin = document.getElementById("isAdmin").checked;
+
+          await window.api.addUser({ username, password, is_admin: isAdmin });
+          e.target.reset();
+          loadUsers();
+        });
+
+      document.getElementById("back").addEventListener("click", () => {
+        window.location = "dashboard.html";
+      });
+
+      loadUsers();
+    </script>
+  </body>
+</html>

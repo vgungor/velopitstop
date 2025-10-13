@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bike Service - Panel</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+      }
+      button {
+        margin: 10px 0;
+        padding: 10px 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Bike Service Yönetim Paneli</h2>
+    <p>Hoş geldin <span id="username"></span>!</p>
+
+    <button id="manageUsers" style="display: none">Kullanıcıları Yönet</button>
+    <button id="logout">Çıkış Yap</button>
+
+    <script>
+      const session = JSON.parse(localStorage.getItem("session"));
+      const usernameEl = document.getElementById("username");
+      const manageBtn = document.getElementById("manageUsers");
+
+      if (!session) {
+        window.location = "login.html";
+      } else {
+        usernameEl.textContent = session.username;
+
+        // Sadece admin kullanıcılara kullanıcı yönetim butonunu göster
+        if (session.is_admin) {
+          manageBtn.style.display = "inline-block";
+        }
+      }
+
+      manageBtn.addEventListener("click", () => {
+        window.location = "users.html";
+      });
+
+      document.getElementById("logout").addEventListener("click", () => {
+        localStorage.removeItem("session");
+        window.location = "login.html";
+      });
+    </script>
+  </body>
+</html>

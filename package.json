@@ -1,0 +1,26 @@
+{
+  "name": "velopitstop",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vgungor/velopitstop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vgungor/velopitstop/issues"
+  },
+  "homepage": "https://github.com/vgungor/velopitstop#readme",
+  "description": "",
+  "dependencies": {
+    "electron": "^38.2.2",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  }
+}
