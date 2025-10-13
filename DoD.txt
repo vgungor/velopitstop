@@ -1,9 +1,0 @@
-🧾 Müşteri kaydı (isim, telefon, bisiklet bilgisi)
-
-🔧 Servis kayıtları (tarih, yapılan işlemler, ücret)
-
-💰 Parça stok takibi
-
-📊 Günlük gelir/servis raporları
-
-🧍‍♂️ Kullanıcı giriş sistemi (isteğe bağlı)
