@@ -19,6 +19,7 @@
     <p>Hoş geldin <span id="username"></span>!</p>
 
     <button id="manageUsers" style="display: none">Kullanıcıları Yönet</button>
+    <button id="manageCustomers">Müşterileri Yönet</button>
     <button id="logout">Çıkış Yap</button>
 
     <script>
@@ -40,6 +41,12 @@
       manageBtn.addEventListener("click", () => {
         window.location = "users.html";
       });
+
+      document
+        .getElementById("manageCustomers")
+        .addEventListener("click", () => {
+          window.location = "customers.html";
+        });
 
       document.getElementById("logout").addEventListener("click", () => {
         localStorage.removeItem("session");

@@ -8,6 +8,7 @@ const db = new sqlite3.Database(dbPath);
 
 function initDB() {
   db.serialize(() => {
+    // Users tablosu
     db.run(`
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,6 +21,7 @@ function initDB() {
       )
     `);
 
+    // Login logs
     db.run(`
       CREATE TABLE IF NOT EXISTS login_logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +31,22 @@ function initDB() {
       )
     `);
 
+    // Customers tablosu
+    db.run(`
+      CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        first_name TEXT,
+        last_name TEXT,
+        phone TEXT,
+        email TEXT,
+        address TEXT,
+        isDeleted INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME
+      )
+    `);
+
+    // Admin kullanıcı kontrolü
     db.get(`SELECT * FROM users WHERE username='admin'`, (err, row) => {
       if (!row) {
         db.run(
@@ -106,6 +124,64 @@ function toggleUserSuspension(id, suspend) {
   });
 }
 
+// Müşteri listeleme
+function getAllCustomers() {
+  return new Promise((resolve, reject) => {
+    db.all(
+      `SELECT * FROM customers ORDER BY created_at DESC`,
+      [],
+      (err, rows) => {
+        if (err) reject(err);
+        else resolve(rows);
+      }
+    );
+  });
+}
+
+// Yeni müşteri ekleme
+function addCustomer(customer) {
+  return new Promise((resolve, reject) => {
+    const { first_name, last_name, phone, email, address } = customer;
+    db.run(
+      `INSERT INTO customers (first_name, last_name, phone, email, address, isDeleted) VALUES (?, ?, ?, ?, ?,0)`,
+      [first_name, last_name, phone, email, address],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ success: true, id: this.lastID });
+      }
+    );
+  });
+}
+
+// Müşteri güncelleme  **NOT: isDeleted ekli değil
+function updateCustomer(customer) {
+  return new Promise((resolve, reject) => {
+    const { id, first_name, last_name, phone, email, address } = customer;
+    db.run(
+      `UPDATE customers SET first_name=?, last_name=?, phone=?, email=?, address=?, updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+      [first_name, last_name, phone, email, address, id],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ success: true });
+      }
+    );
+  });
+}
+
+// Müşteri silme
+function deleteCustomer(id) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      `UPDATE customers SET isDeleted = 1 WHERE id=?`,
+      [id],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ success: true });
+      }
+    );
+  });
+}
+
 module.exports = {
   initDB,
   checkLogin,
@@ -113,4 +189,8 @@ module.exports = {
   getAllUsers,
   addUser,
   toggleUserSuspension,
+  getAllCustomers,
+  addCustomer,
+  updateCustomer,
+  deleteCustomer,
 };

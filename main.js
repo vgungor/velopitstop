@@ -7,6 +7,10 @@ const {
   getAllUsers,
   addUser,
   toggleUserSuspension,
+  getAllCustomers,
+  addCustomer,
+  deleteCustomer,
+  updateCustomer,
 } = require("./src/db/database");
 
 let mainWindow;
@@ -40,4 +44,13 @@ ipcMain.handle("admin:getUsers", async () => getAllUsers());
 ipcMain.handle("admin:addUser", async (event, user) => addUser(user));
 ipcMain.handle("admin:toggleSuspension", async (event, id, suspend) =>
   toggleUserSuspension(id, suspend)
+);
+// Müşteri yönetimi
+ipcMain.handle("customer:getAll", async () => getAllCustomers());
+ipcMain.handle("customer:add", async (event, customer) =>
+  addCustomer(customer)
+);
+ipcMain.handle("customer:delete", async (event, id) => deleteCustomer(id));
+ipcMain.handle("customer:update", async (event, customer) =>
+  updateCustomer(customer)
 );

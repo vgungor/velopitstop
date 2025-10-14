@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Müşteri Yönetimi</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      button {
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      input {
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Müşteri Yönetimi</h2>
+    <button id="back">← Geri Dön</button>
+
+    <h3>Yeni Müşteri Ekle</h3>
+    <form id="addCustomerForm">
+      <input type="text" id="firstName" placeholder="Ad" required />
+      <input type="text" id="lastName" placeholder="Soyad" required />
+      <input type="text" id="phone" placeholder="Telefon" />
+      <input type="text" id="email" placeholder="Email" />
+      <input type="text" id="address" placeholder="Adres" />
+      <button type="submit">Ekle</button>
+    </form>
+
+    <h3>Mevcut Müşteriler</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Ad</th>
+          <th>Soyad</th>
+          <th>Telefon</th>
+          <th>Email</th>
+          <th>Adres</th>
+          <th>Silindi mi?</th>
+          <th>İşlemler</th>
+        </tr>
+      </thead>
+      <tbody id="customerTableBody"></tbody>
+    </table>
+
+    <script>
+      const tbody = document.getElementById("customerTableBody");
+
+      async function loadCustomers() {
+        const customers = await window.api.getAllCustomers();
+        tbody.innerHTML = "";
+        customers.forEach((c) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td>${c.id}</td>
+          <td>${c.first_name}</td>
+          <td>${c.last_name}</td>
+          <td>${c.phone || "-"}</td>
+          <td>${c.email || "-"}</td>
+          <td>${c.address || "-"}</td>
+          <td>${c.isDeleted ? "🟥" : "🟩"}</td>
+          <td>
+            <button onclick="deleteCustomer(${c.id})">Sil</button>
+          </td>
+        `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function deleteCustomer(id) {
+        if (confirm("Bu müşteriyi silmek istediğinize emin misiniz?")) {
+          await window.api.deleteCustomer(id);
+          loadCustomers();
+        }
+      }
+
+      document
+        .getElementById("addCustomerForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const customer = {
+            first_name: document.getElementById("firstName").value,
+            last_name: document.getElementById("lastName").value,
+            phone: document.getElementById("phone").value,
+            email: document.getElementById("email").value,
+            address: document.getElementById("address").value,
+          };
+          await window.api.addCustomer(customer);
+          e.target.reset();
+          loadCustomers();
+        });
+
+      document.getElementById("back").addEventListener("click", () => {
+        window.location = "dashboard.html";
+      });
+
+      loadCustomers();
+    </script>
+  </body>
+</html>
