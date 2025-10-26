@@ -61,7 +61,7 @@
           <th>ID</th>
           <th>Kullanıcı Adı</th>
           <th>Admin</th>
-          <th>Askıya Alındı</th>
+          <th>Erişim</th>
           <th>Son Giriş</th>
           <th>İşlem</th>
         </tr>
@@ -88,7 +88,7 @@
         <td>${u.id}</td>
         <td>${u.username}</td>
         <td>${u.is_admin ? "✅" : "❌"}</td>
-        <td>${u.is_suspended ? "🟥" : "🟩"}</td>
+        <td>${u.is_suspended ? "Kısıtlı" : "Açık"}</td>
         <td>${u.last_login || "-"}</td>
         <td>
           <button onclick="toggleSuspend(${u.id}, ${u.is_suspended ? 0 : 1})">

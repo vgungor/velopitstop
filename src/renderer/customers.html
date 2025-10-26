@@ -2,89 +2,368 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Müşteri Yönetimi</title>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: Arial, sans-serif;
-        margin: 30px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #082dd4 0%, #0832a5 100%);
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(8, 45, 212, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(8, 50, 165, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(8, 45, 212, 0.3) 0%, transparent 50%);
+        padding: 20px;
       }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-top: 20px;
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #082dd4;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(8, 45, 212, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
-      th,
-      td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      button {
-        padding: 5px 10px;
-        cursor: pointer;
-      }
-      form {
+
+      .header {
         display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
       }
+
+      h2 {
+        color: #ffffff;
+        font-size: 28px;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .back-button {
+        padding: 12px 24px;
+        background: #1c4dd4;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background: #0832a5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(8, 45, 212, 0.4);
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      .card {
+        background: #2c4fdd;
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .card.addCustomerCard {
+        background: #2c4fdd;
+      }
+      .card.customerListCard {
+        background: #142d92;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .search-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .search-container input {
+        width: 250px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #333;
+        outline: none;
+      }
+
+      .search-container input::placeholder {
+        color: #999;
+      }
+
+      #addCustomerForm {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 0;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+
+      .form-row.two-cols {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-row.one-col {
+        grid-template-columns: 1fr;
+      }
+
       input {
-        padding: 5px;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+        color: #333;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      input::placeholder {
+        color: #999;
+      }
+
+      input:focus {
+        background: rgba(255, 255, 255, 1);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 12px rgba(8, 45, 212, 0.2);
+      }
+
+      button[type="submit"] {
+        padding: 12px 24px;
+        background: #082f99;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button[type="submit"]:hover {
+        background: #0832a5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(8, 45, 212, 0.4);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background: #1c4dd4;
+        color: #ffffff;
+        padding: 16px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        color: #333;
+        font-size: 14px;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover {
+        background: rgba(8, 45, 212, 0.05);
+      }
+
+      button.delete-btn {
+        padding: 8px 16px;
+        background: #e53935;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 8px;
+      }
+
+      button.delete-btn:hover {
+        background: #c62828;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(229, 57, 53, 0.3);
+      }
+
+      button.edit-btn {
+        padding: 8px 16px;
+        background: #1c4dd4;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 8px;
+      }
+
+      button.edit-btn:hover {
+        background: #0832a5;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(8, 45, 212, 0.3);
+      }
+      button.history-btn {
+        padding: 8px 16px;
+        background: #d48a1c;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      button.history-btn:hover {
+        background: #a16204;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(8, 45, 212, 0.3);
+      }
+      button.bicycles-btn {
+        padding: 8px 16px;
+        background: #1cc8d4;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      button.bicycles-btn:hover {
+        background: #045b66;  
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(8, 45, 212, 0.3);
       }
     </style>
   </head>
   <body>
-    <h2>Müşteri Yönetimi</h2>
-    <button id="back">← Geri Dön</button>
+    <div class="container">
+      <div class="header">
+        <h2>Müşteri Yönetimi</h2>
+        <button class="back-button" id="back">← Geri Dön</button>
+      </div>
 
-    <h3>Yeni Müşteri Ekle</h3>
-    <form id="addCustomerForm">
-      <input type="text" id="firstName" placeholder="Ad" required />
-      <input type="text" id="lastName" placeholder="Soyad" required />
-      <input type="text" id="phone" placeholder="Telefon" />
-      <input type="text" id="email" placeholder="Email" />
-      <input type="text" id="address" placeholder="Adres" />
-      <button type="submit">Ekle</button>
-    </form>
+      <div class="card" id="addCustomerCard">
+        <h3>Yeni Müşteri Ekle</h3>
+        <form id="addCustomerForm">
+          <div class="form-row">
+            <input type="text" id="firstName" placeholder="Ad" required />
+            <input type="text" id="lastName" placeholder="Soyad" required />
+            <input type="text" id="phone" placeholder="Telefon" required/>
+          </div>
+          <div class="form-row two-cols">
+            <input type="text" id="email" placeholder="Email" />
+            <input type="text" id="address" placeholder="Adres" />
+          </div>
+          <div class="form-row one-col">
+            <button type="submit">Müşteri Ekle</button>
+          </div>
+        </form>
+      </div>
 
-    <h3>Mevcut Müşteriler</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Ad</th>
-          <th>Soyad</th>
-          <th>Telefon</th>
-          <th>Email</th>
-          <th>Adres</th>
-          <th>Silindi mi?</th>
-          <th>İşlemler</th>
-        </tr>
-      </thead>
-      <tbody id="customerTableBody"></tbody>
-    </table>
+      <div class="card" id="customerListCard">
+        <div class="section-header">
+          <h3>Mevcut Müşteriler</h3>
+          <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Ad, Soyad veya Telefon ile ara..." />
+            <span style="color: #ffffff; font-size: 16px;">🔍</span>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <!-- <th>ID</th> -->
+              <th>Ad</th>
+              <th>Soyad</th>
+              <th>Telefon</th>
+              <th>Email</th>
+              <th>Adres</th>
+              <!-- <th>Silindi mi?</th> -->
+              <th>İşlemler</th>
+            </tr>
+          </thead>
+          <tbody id="customerTableBody"></tbody>
+        </table>
+      </div>
+      </div>
+    </div>
 
     <script>
       const tbody = document.getElementById("customerTableBody");
+      let allCustomers = [];
 
       async function loadCustomers() {
-        const customers = await window.api.getAllCustomers();
+        allCustomers = await window.api.getAllCustomers();
+        displayCustomers(allCustomers);
+      }
+
+      function displayCustomers(customers) {
         tbody.innerHTML = "";
         customers.forEach((c) => {
           const tr = document.createElement("tr");
           tr.innerHTML = `
-          <td>${c.id}</td>
+          <!-- <td>${c.id}</td> -->
           <td>${c.first_name}</td>
           <td>${c.last_name}</td>
           <td>${c.phone || "-"}</td>
           <td>${c.email || "-"}</td>
           <td>${c.address || "-"}</td>
-          <td>${c.isDeleted ? "🟥" : "🟩"}</td>
+          <!-- <td>${c.isDeleted ? "Evet" : "Hayır"}</td> -->
           <td>
-            <button onclick="deleteCustomer(${c.id})">Sil</button>
+            <!-- <button onclick="deleteCustomer(${c.id})" class="delete-btn">Sil</button> -->
+            <button onclick="updateCustomer(${c.id})" class="edit-btn">Düzenle</button>
+            <button onclick="showCustomerHistory(${c.id})" class="history-btn">İşlem Geçmişi</button>
+            <button onclick="showCustomerBicycles(${c.id})" class="bicycles-btn">Bisikletleri</button>
+            
           </td>
         `;
           tbody.appendChild(tr);
@@ -116,6 +395,25 @@
 
       document.getElementById("back").addEventListener("click", () => {
         window.location = "dashboard.html";
+      });
+
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        if (searchTerm === "") {
+          displayCustomers(allCustomers);
+        } else {
+          const filteredCustomers = allCustomers.filter((c) => {
+            const firstName = (c.first_name || "").toLowerCase();
+            const lastName = (c.last_name || "").toLowerCase();
+            const phone = (c.phone || "").toLowerCase();
+            return (
+              firstName.includes(searchTerm) ||
+              lastName.includes(searchTerm) ||
+              phone.includes(searchTerm)
+            );
+          });
+          displayCustomers(filteredCustomers);
+        }
       });
 
       loadCustomers();

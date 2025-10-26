@@ -1,0 +1,12 @@
+COMMAND 1:
+besides console log, use customerFirstName, customerLastName, 
+ customerPhone to add customer as in database.js "function addCustomer(customer)", 
+ then add for this customer, to bicycles table, customerID, bikeBrand, bikeModel and serialNumber, 
+ then for this bicycle, add to serviceRecord table in db, bicycleID, faultDescription, 
+ estimatedDeliveryDate, recordCreationDate, creatingUserID, statusID. 
+ Also create a status table that has status ID and status name to follow up the service process, 
+ status can be "beklemede", "başladı", "devam ediyor", "parça bekliyor", 
+ "tamamlandı", "teslimata hazır" and so on. 
+.If database is missing these tables also add code to create them
+
+COMMAND 2:

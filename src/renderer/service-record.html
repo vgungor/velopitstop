@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yeni Servis Kaydı</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #082dd4 0%, #0832a5 100%);
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(8, 45, 212, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(8, 50, 165, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(8, 45, 212, 0.3) 0%, transparent 50%);
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #082dd4;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(8, 45, 212, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        color: #ffffff;
+        font-size: 28px;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .back-button {
+        padding: 12px 24px;
+        background: #1c4dd4;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background: #0832a5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(8, 45, 212, 0.4);
+      }
+
+      .card {
+        background: #0d36d9;
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .section-header {
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .form-row.three-cols {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .form-row.full-width {
+        grid-template-columns: 1fr;
+      }
+
+      label {
+        display: block;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      input, textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+        color: #333;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #999;
+      }
+
+      input:focus,
+      textarea:focus {
+        background: rgba(255, 255, 255, 1);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 12px rgba(8, 45, 212, 0.2);
+      }
+
+      .audio-controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .audio-button {
+        padding: 10px 20px;
+        background: #1c4dd4;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .audio-button:hover {
+        background: #0832a5;
+        transform: translateY(-2px);
+      }
+
+      .audio-button.recording {
+        background: #e53935;
+      }
+
+      .audio-button.recording:hover {
+        background: #c62828;
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .checklist-item input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+
+      .checklist-item label {
+        color: #ffffff;
+        font-size: 14px;
+        margin: 0;
+        cursor: pointer;
+        flex: 1;
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 16px;
+        background: #082f99;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 30px;
+      }
+
+      .submit-button:hover {
+        background: #0832a5;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(8, 45, 212, 0.4);
+      }
+
+      .message {
+        margin-top: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .message.success {
+        background: rgba(76, 175, 80, 0.2);
+        color: #4caf50;
+        border: 1px solid #4caf50;
+      }
+
+      .message.error {
+        background: rgba(229, 57, 53, 0.2);
+        color: #e53935;
+        border: 1px solid #e53935;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2>Yeni Servis Kaydı</h2>
+        <button class="back-button" id="back">← Geri Dön</button>
+      </div>
+
+      <form id="serviceRecordForm">
+        <div class="card">
+          <div class="section-header">Müşteri Bilgileri</div>
+          
+          <div class="form-row">
+            <div>
+              <label for="customerFirstName">Ad *</label>
+              <input type="text" id="customerFirstName" placeholder="Ad" required />
+            </div>
+            <div>
+              <label for="customerLastName">Soyad *</label>
+              <input type="text" id="customerLastName" placeholder="Soyad" required />
+            </div>
+          </div>
+          
+          <div class="form-row full-width">
+            <div>
+              <label for="customerPhone">Telefon *</label>
+              <input type="text" id="customerPhone" placeholder="Telefon numarası" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-header">Bisiklet Bilgileri</div>
+          
+          <div class="form-row">
+            <div>
+              <label for="bikeBrand">Marka *</label>
+              <input type="text" id="bikeBrand" placeholder="Bisiklet markası" required />
+            </div>
+            <div>
+              <label for="bikeModel">Model *</label>
+              <input type="text" id="bikeModel" placeholder="Bisiklet modeli" required />
+            </div>
+            <div>
+              <label for="serialNumber">Seri No</label>
+              <input type="text" id="serialNumber" placeholder="Seri numarası (isteğe bağlı)" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-header">Arıza Açıklaması</div>
+          
+          <div class="form-row full-width">
+            <div>
+              <label for="faultDescription">Arıza Detayları *</label>
+              <textarea id="faultDescription" placeholder="Arıza açıklamasını detaylı olarak yazın..." required></textarea>
+            </div>
+          </div>
+
+          <!-- <div class="form-row full-width">
+            <div>
+              <label>Sesli Not</label>
+              <div class="audio-controls">
+                <button type="button" class="audio-button" id="recordButton">🎤 Kayıt Başlat</button>
+                <button type="button" class="audio-button" id="stopButton" style="display: none;">⏹️ Kayıt Durdur</button>
+                <button type="button" class="audio-button" id="playButton" style="display: none;">▶️ Dinle</button>
+              </div>
+              <audio id="audioPreview" style="display: none; margin-top: 10px; width: 100%;"></audio>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- <div class="card">
+          <div class="section-header">Teslim Anı Kontrol Listesi</div>
+          
+          <div class="checklist-item">
+            <input type="checkbox" id="check1" />
+            <label for="check1">Bisiklet ve aksesuarlar kontrol edildi</label>
+          </div>
+          
+          <div class="checklist-item">
+            <input type="checkbox" id="check2" />
+            <label for="check2">Sürücü/depo kapağı kontrol edildi</label>
+          </div>
+          
+          <div class="checklist-item">
+            <input type="checkbox" id="check3" />
+            <label for="check3">Fren ve vites sistemi kontrol edildi</label>
+          </div>
+          
+          <div class="checklist-item">
+            <input type="checkbox" id="check4" />
+            <label for="check4">Lastik ve jantlar kontrol edildi</label>
+          </div>
+          
+          <div class="checklist-item">
+            <input type="checkbox" id="check5" />
+            <label for="check5">Gidon ve sele kontrol edildi</label>
+          </div>
+          
+          <div class="checklist-item">
+            <input type="checkbox" id="check6" />
+            <label for="check6">Müşteri bilgilendirildi</label>
+          </div>
+        </div> -->
+
+        <div class="card">
+          <div class="section-header">Tahmini Teslim Tarihi</div>
+          
+          <div class="form-row full-width">
+            <div>
+              <label for="estimatedDate">Tahmini Teslim Tarihi *</label>
+              <input type="date" id="estimatedDate" required />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button">Servis Kaydını Oluştur</button>
+        <div id="message"></div>
+      </form>
+    </div>
+
+    <script>
+      let mediaRecorder;
+      let audioChunks = [];
+      let audioBlob;
+
+      const recordButton = document.getElementById("recordButton");
+      const stopButton = document.getElementById("stopButton");
+      const playButton = document.getElementById("playButton");
+      const audioPreview = document.getElementById("audioPreview");
+
+    //   recordButton.addEventListener("click", async () => {
+    //     try {
+    //       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    //       mediaRecorder = new MediaRecorder(stream);
+    //       audioChunks = [];
+
+    //       mediaRecorder.ondataavailable = (event) => {
+    //         audioChunks.push(event.data);
+    //       };
+
+    //       mediaRecorder.onstop = () => {
+    //         audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+    //         const audioUrl = URL.createObjectURL(audioBlob);
+    //         audioPreview.src = audioUrl;
+    //         audioPreview.style.display = "block";
+    //         playButton.style.display = "inline-block";
+    //       };
+
+    //       mediaRecorder.start();
+    //       recordButton.style.display = "none";
+    //       stopButton.style.display = "inline-block";
+    //       recordButton.classList.add("recording");
+    //     } catch (error) {
+    //       alert("Mikrofon erişimi sağlanamadı!");
+    //     }
+    //   });
+
+    //   stopButton.addEventListener("click", () => {
+    //     mediaRecorder.stop();
+    //     recordButton.style.display = "inline-block";
+    //     stopButton.style.display = "none";
+    //     recordButton.classList.remove("recording");
+    //   });
+
+    //   playButton.addEventListener("click", () => {
+    //     audioPreview.play();
+    //   });
+
+      document.getElementById("back").addEventListener("click", () => {
+        window.location = "dashboard.html";
+      });
+
+      document.getElementById("serviceRecordForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const messageDiv = document.getElementById("message");
+        
+        const formData = {
+          customerFirstName: document.getElementById("customerFirstName").value,
+          customerLastName: document.getElementById("customerLastName").value,
+          customerPhone: document.getElementById("customerPhone").value,
+          bikeBrand: document.getElementById("bikeBrand").value,
+          bikeModel: document.getElementById("bikeModel").value,
+          serialNumber: document.getElementById("serialNumber").value,
+          faultDescription: document.getElementById("faultDescription").value,
+          estimatedDate: document.getElementById("estimatedDate").value,
+        //   checklist: {
+        //     check1: document.getElementById("check1").checked,
+        //     check2: document.getElementById("check2").checked,
+        //     check3: document.getElementById("check3").checked,
+        //     check4: document.getElementById("check4").checked,
+        //     check5: document.getElementById("check5").checked,
+        //     check6: document.getElementById("check6").checked,
+        //   },
+        //   audioRecording: audioBlob ? "Kayıt yapıldı" : null,
+        };
+
+        console.log("Form Data:", formData);
+
+        messageDiv.textContent = "Servis kaydı başarıyla oluşturuldu!";
+        messageDiv.className = "message success";
+
+        setTimeout(() => {
+          window.location = "dashboard.html";
+        }, 2000);
+      });
+
+      // Set minimum date to today
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("estimatedDate").setAttribute("min", today);
+    </script>
+  </body>
+</html>
+

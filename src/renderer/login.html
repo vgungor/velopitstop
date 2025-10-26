@@ -1,55 +1,248 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Bike Service - Giriş</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bike Service - Login</title>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #082dd4 0%, #0832a5 100%);
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(8, 45, 212, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(8, 50, 165, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(8, 45, 212, 0.3) 0%, transparent 50%);
+        padding: 20px;
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        background: #082dd4;
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 8px 32px rgba(8, 45, 212, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        background: lightsteelblue;
+        display: flex;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        font-size: 40px;
+        color: white;
+        box-shadow: 0 4px 20px rgba(8, 45, 212, 0.3);
+        overflow: hidden;
       }
-      form {
+
+      .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .user-name {
+        font-size: 24px;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 40px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .input-wrapper {
+        position: relative;
         display: flex;
-        flex-direction: column;
-        width: 250px;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 0 16px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
       }
-      input,
-      button {
-        margin: 8px 0;
-        padding: 8px;
+
+      .input-wrapper:focus-within {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .input-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+
+      input {
+        flex: 1;
+        padding: 16px 0;
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        color: #333;
+        outline: none;
+      }
+
+      input::placeholder {
+        color: #999;
+      }
+
+      .login-button {
+        width: 100%;
+        padding: 16px;
+        margin-top: 30px;
+        border: none;
+        border-radius: 12px;
+        background: #1c4dd4 !important;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      .login-button:hover {
+        background: #0832a5;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(8, 45, 212, 0.4);
+      }
+
+      .login-button:active {
+        transform: translateY(0);
+        
+      }
+
+      .forgot-link {
+        margin-top: 30px;
         font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .forgot-link:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+
+      .message {
+        margin-top: 16px;
+        color: #ff6b6b;
+        font-size: 14px;
+        min-height: 20px;
+        text-align: center;
+      }
+
+      .message.success {
+        color: #4fc3f7;
       }
     </style>
   </head>
   <body>
-    <h2>Bike Service Giriş</h2>
-    <form id="loginForm">
-      <input id="username" placeholder="Kullanıcı Adı" required />
-      <input id="password" type="password" placeholder="Şifre" required />
-      <button type="submit">Giriş Yap</button>
-    </form>
-    <p id="message"></p>
+    <div class="login-container">
+      <div class="profile-picture">
+        <img src="images/tool.png" alt="Nokta Bisiklet Servis Logo" />
+      </div>
+      
+      <div class="user-name">Nokta Bisiklet Servis Programı</div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <div class="input-wrapper">
+            <div class="input-icon">👤</div>
+            <input
+              id="username"
+              type="text"
+              placeholder="Kullanıcı Adı"
+              required
+              autocomplete="username"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper">
+            <div class="input-icon">🔒</div>
+            <input
+              id="password"
+              type="password"
+              placeholder="Şifre"
+              required
+              autocomplete="current-password"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="login-button">Giriş Yap</button>
+        
+        <p class="message" id="message"></p>
+      </form>
+
+      <a href="#" class="forgot-link" id="forgotLink" style="display: none;">Kullanıcı Adımı / Şifremi Unuttum?</a>
+    </div>
 
     <script>
       const form = document.getElementById("loginForm");
       const message = document.getElementById("message");
+      const forgotLink = document.getElementById("forgotLink");
 
+      // Form submission
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        const result = await window.api.login(username, password);
-        if (result.success) {
-          localStorage.setItem("session", JSON.stringify(result.user));
-          message.textContent = "Giriş başarılı! Yönlendiriliyor...";
-          window.location = "dashboard.html";
-        } else {
-          message.textContent = result.message;
+
+        try {
+          const result = await window.api.login(username, password);
+          if (result.success) {
+            localStorage.setItem("session", JSON.stringify(result.user));
+            message.textContent = "Kullanıcı girişi başarılı! Yönlendiriliyorsunuz...";
+            message.className = "message success";
+            setTimeout(() => {
+              window.location = "dashboard.html";
+            }, 1000);
+          } else {
+            message.textContent = result.message;
+            message.className = "message";
+          }
+        } catch (error) {
+          message.textContent = "An error occurred. Please try again.";
+          message.className = "message";
         }
+      });
+
+      // Forgot password link
+      forgotLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        message.textContent = "Forgot password functionality not implemented yet.";
+        message.className = "message";
       });
     </script>
   </body>

@@ -2,25 +2,167 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bike Service - Panel</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 30px;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      button {
-        margin: 10px 0;
-        padding: 10px 15px;
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #082dd4 0%, #0832a5 100%);
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(8, 45, 212, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(8, 50, 165, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(8, 45, 212, 0.3) 0%, transparent 50%);
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #082dd4;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 8px 32px rgba(8, 45, 212, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+      }
+
+      h2 {
+        color: #ffffff;
+        font-size: 32px;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .logout-button {
+        padding: 12px 24px;
+        background: rgba(229, 57, 53, 0.2);
+        border: 2px solid rgba(229, 57, 53, 0.4);
+        border-radius: 12px;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .logout-button:hover {
+        background: rgba(229, 57, 53, 0.3);
+        border-color: rgba(229, 57, 53, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+      }
+
+      .logout-button img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .welcome-text {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 18px;
+        margin-bottom: 40px;
+      }
+
+      .welcome-text span {
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .dashboard-button {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 150px;
+      }
+
+      .dashboard-button img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+      }
+
+      .dashboard-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .hidden {
+        display: none !important;
       }
     </style>
   </head>
   <body>
-    <h2>Bike Service Yönetim Paneli</h2>
-    <p>Hoş geldin <span id="username"></span>!</p>
+    <div class="container">
+      <div class="header">
+        <div>
+          <h2>Nokta Bisiklet Servis</h2>
+          <div class="welcome-text">Hoş geldin <span id="username"></span>!</div>
+        </div>
+        <button id="logout" class="logout-button">
+          <img src="images/emergency-exit.png" alt="Çıkış" />
+          Çıkış Yap
+        </button>
+      </div>
 
-    <button id="manageUsers" style="display: none">Kullanıcıları Yönet</button>
-    <button id="manageCustomers">Müşterileri Yönet</button>
-    <button id="logout">Çıkış Yap</button>
+      <div class="button-grid">
+        <button id="newServiceRecord" class="dashboard-button">
+          <img src="images/repair.png" alt="Yeni Servis Kaydı" />
+          Yeni Servis Kaydı Oluştur
+        </button>
+
+
+
+        <button id="serviceTracking" class="dashboard-button">
+          <img src="images/business.png" alt="Servis Takip" />
+          Servis Takip
+        </button>
+        <button id="manageCustomers" class="dashboard-button">
+          <img src="images/biker.png" alt="Müşteriler" />
+          Müşterileri Yönet
+        </button>
+        <button id="manageUsers" class="dashboard-button hidden">
+          <img src="images/user-setting.png" alt="Kullanıcılar" />
+          Kullanıcıları Yönet
+        </button>
+      </div>
+    </div>
 
     <script>
       const session = JSON.parse(localStorage.getItem("session"));
@@ -34,7 +176,7 @@
 
         // Sadece admin kullanıcılara kullanıcı yönetim butonunu göster
         if (session.is_admin) {
-          manageBtn.style.display = "inline-block";
+          manageBtn.classList.remove("hidden");
         }
       }
 
@@ -46,6 +188,19 @@
         .getElementById("manageCustomers")
         .addEventListener("click", () => {
           window.location = "customers.html";
+        });
+
+      document
+        .getElementById("newServiceRecord")
+        .addEventListener("click", () => {
+          window.location = "service-record.html";
+        });
+
+      document
+        .getElementById("serviceTracking")
+        .addEventListener("click", () => {
+          // TODO: Navigate to service tracking page
+          alert("Servis takip sayfası yakında eklenecek!");
         });
 
       document.getElementById("logout").addEventListener("click", () => {
